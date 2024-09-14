@@ -4,6 +4,7 @@ import gspread
 from oauth2client import service_account
 
 from FitnessCalcService import FitnessCalcService, ExerciseType
+from FitnessDateAndTimeService import FitnessDateAndTimeService
 
 # Указываем необходимые API
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -44,15 +45,19 @@ client = gspread.authorize(credentials)
 
 # Открываем Google Sheets по названию
 spreadsheet = client.open("Режим дня (питание и спорт)")
-sheet = spreadsheet.worksheet('2024.09 - сентябрь')  # TODO: вычислять имя динамически!
+
 
 class FitnessCalcMain:
     def __init__(self):
+        self.fitnessDateAndTimeService = FitnessDateAndTimeService()
+        sheet_name = self.fitnessDateAndTimeService.compose_sheet_name()
+        self.sheet = spreadsheet.worksheet(sheet_name)
+
         self.fitnessCalcService = FitnessCalcService()
 
     def calculate(self):
         # Получаем данные из диапазона столбцов
-        data = sheet.batch_get(['C:C', 'D:D'])
+        data = self.sheet.batch_get(['C:C', 'D:D'])
 
         # pull-ups - подтягивания на турнике
         pullups_column_data = data[0]

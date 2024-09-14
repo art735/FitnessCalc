@@ -19,6 +19,14 @@ last_day_of_month = datetime(year, month, calendar.monthrange(year, month)[1])
 
 class FitnessDateAndTimeService:
 
+    def compose_sheet_name(self):
+        # Здесь 02 указывает на то, что число должно занимать как минимум 2 знака, добавляя ведущий ноль, если число
+        # состоит из одной цифры.
+        month_number = f'{month:02}'
+        month_name = now.strftime("%B")
+        sheet_name = f'{year}.{month_number} - {month_name}'
+        return sheet_name
+
     def get_mon_wed_fri_days(self):
         # ---=== ТУРНИК ===---
         # Количество понедельников, сред и пятниц по сегодняшний день включительно
@@ -53,3 +61,7 @@ class FitnessDateAndTimeService:
         return specific_weekdays_counter
 
 
+################################
+
+fitnessDateAndTimeService = FitnessDateAndTimeService()
+# fitnessDateAndTimeService.compose_sheet_name()

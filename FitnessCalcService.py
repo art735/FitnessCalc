@@ -1,37 +1,3 @@
-#
-# # Переменные для расчётов
-# total_pullups = 0
-# target_pullups = 1000
-# current_day_of_month = datetime.now().day
-#
-# # Проход по строкам данных
-# # for row in data:
-# for i in range(0, len(day_of_week_col_data)):
-#     day_of_week = day_of_week_col_data[i]
-#     pullups = pullups_col_data[i]
-#
-#     # Проверяем, является ли текущий день недели пн, ср или пт
-#     if day_of_week in ['пн', 'ср', 'пт']:
-#         try:
-#             # Суммируем подтягивания, если значение - это число
-#             total_pullups += int(pullups)
-#         except ValueError:
-#             # Пропускаем строки, где нет числовых данных
-#             continue
-#
-# # Определяем, сколько подтягиваний должно быть сделано к текущему дню
-# days_in_month = 30
-# pullups_per_day = target_pullups / days_in_month
-# expected_pullups_by_today = pullups_per_day * current_day_of_month
-#
-# # Рассчитываем разницу
-# difference = total_pullups - expected_pullups_by_today
-#
-# # Результат
-# if difference >= 0:
-#     print(f"Вы опережаете график на {difference} подтягиваний.")
-# else:
-#     print(f"Вы отстаете от графика на {-difference} подтягиваний.")
 import re
 from datetime import datetime
 import math
