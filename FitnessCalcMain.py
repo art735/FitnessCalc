@@ -1,6 +1,9 @@
 import datetime
+import os
 
 import gspread
+from oauth2client import service_account
+
 from oauth2client.service_account import ServiceAccountCredentials
 
 from FitnessCalcService import FitnessCalcService, ExerciseType
@@ -8,12 +11,28 @@ from FitnessCalcService import FitnessCalcService, ExerciseType
 # Указываем необходимые API
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
-credentials_json_filename = r"E:\Languages\English\SVN repo\Python software\FitnessCalc\credentials.json"
-# Загружаем файл с ключами для авторизации
-creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_json_filename, scope)
+# Лучший способ безопасно хранить и использовать конфиденциальные данные — через переменные окружения.
+# Загрузите файл credentials.json на сервер (или в защищённое хранилище).
+# В вашем коде замените прямую загрузку файла на использование переменной окружения для получения пути к файлу
+
+# Предполагается, что путь к credentials.json установлен в переменной окружения
+credentials_filename = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
+if credentials_filename:
+    credentials = service_account.ServiceAccountCredentials.from_json_keyfile_name(credentials_filename)
+else:
+    raise FileNotFoundError("Environment variable 'GOOGLE_APPLICATION_CREDENTIALS' is not set.")
+
+# credentials_json_filename = r"E:\IT\Programming\Python\! My Projects\FitnessCalc\credentials.json"
+# # Загружаем файл с ключами для авторизации
+# creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_json_filename, scope)
+
+# В Google Colab переменные окружения можно установить следующим образом:
+# import os
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/path/to/your/credentials.json"
 
 # Авторизуемся с помощью gspread
-client = gspread.authorize(creds)
+client = gspread.authorize(credentials)
 
 # Открываем Google Sheets по названию
 spreadsheet = client.open("Режим дня (питание и спорт)")
