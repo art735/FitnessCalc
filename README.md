@@ -1,1 +1,1 @@
-Calculates pull-ups and dips
+Calculates pull-ups and dips.
